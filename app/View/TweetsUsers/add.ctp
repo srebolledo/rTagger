@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="fourteen columns">
+	<h1 style="text-align:center"><?php echo __('Etiquetando un tweet'); ?></h1>
+		<?php echo $this->Form->create('TweetsUser');?>
+			<div style="margin: 0 auto 0 auto;">
+			<fieldset>
+
+				<div class='tweet'>
+					<?php echo $tweet['Tweet']['tweet'];?>
+					<?php
+						//chopping data
+						$tweet_explode = explode(" ", $tweet['Tweet']['tweet']);
+						echo "<table class='choppedTweet'>";
+						echo $this->Html->tableHeaders(array('Tweet part','Tag','Palabras unidas'));
+						$i = 0;
+						foreach ($tweet_explode as $word){
+							echo $this->Form->hidden('TweetsUser.'.$i.'.user_id',array('value'=>$user));
+							echo $this->Form->hidden('TweetsUser.'.$i.'.position_tweet',array('value'=>($i+1)));
+							echo $this->Form->hidden('TweetsUser.'.$i.'.tweet_id',array('value'=>$tweet['Tweet']['id']));
+		
+		
+							echo $this->Html->tableCells(
+									array(
+											$word,
+											$this->Form->input('TweetsUser.'.$i.'.tag_id',array('label'=>'','default'=>9)),
+											$this->Form->input('TweetsUser.'.$i.'.linked',array('label'=>'','type'=>'checkbox'))
+										)
+								);
+							$i++;
+						}
+						echo "</table>";
+					?>
+				</div>
+			</fieldset>
+			</div>
+		<?php echo $this->Form->end(__('Submit'));?>
+	</div>
+</div>
