@@ -6,4 +6,4 @@ app/config/database.php
 .htaccess
 app/.htaccess
 app/webroot/.htaccess
-
+app/Config/core.php
