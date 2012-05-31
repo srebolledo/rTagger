@@ -49,5 +49,19 @@ class AppController extends Controller {
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
         $this->Auth->loginRedirect = array('controller' => 'pages', 'action' => 'home');
     }
+    public function beforeRender(){
+	    /*Automatic css and js load*/
+	    $fileName = $this->params['controller'].".".$this->params['action'];
+	    $_css = array();
+	    $_js = array('jQuery');
+	    if(file_exists("css/".$fileName.".css")){
+			$_css[] = $fileName;
+	    }
+	    if(file_exists("js/".$fileName.".js")){
+			$_js[] = $fileName;
+	    }
+	    $this->set('css',$_css);
+	    $this->set('js',$_js);
+    }
 }
 ?>

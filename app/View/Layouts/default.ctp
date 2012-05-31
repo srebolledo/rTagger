@@ -28,8 +28,13 @@
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
-
-		echo $this->fetch('meta');
+		foreach($css as $stylesheet){
+			echo $this->Html->css($stylesheet);			
+		}
+		foreach($js as $javascript){
+			echo $this->Html->script($javascript);			
+		}
+		echo $this->fetch('meta');													
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>

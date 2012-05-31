@@ -1,0 +1,19 @@
+table.choppedTweet{
+	width:700px;
+	margin: 30px auto 0 auto;
+}
+input.checkbox{
+	text-align: center;	
+}
+table tr th{
+	font-size: 115%;
+	height: 30px;
+	
+}
+.tweet {
+	font-size:150%;
+	color:black;
+}
+select{
+	align: center;
+}

@@ -1,13 +1,11 @@
 <div class="container">
-	<div class="fourteen columns">
+	<div class="sixteen columns">
 	<h1 style="text-align:center"><?php echo __('Etiquetando un tweet'); ?></h1>
 		<?php echo $this->Form->create('TweetsUser');?>
 			<div style="margin: 0 auto 0 auto;">
 			<fieldset>
-
-				<div class='tweet'>
-					<?php echo $tweet['Tweet']['tweet'];?>
-					<?php
+				<div class="tweet"><?php echo $tweet['Tweet']['tweet'];?></div>
+				<?php
 						//chopping data
 						$tweet_explode = explode(" ", $tweet['Tweet']['tweet']);
 						echo "<table class='choppedTweet'>";
@@ -23,16 +21,15 @@
 									array(
 											$word,
 											$this->Form->input('TweetsUser.'.$i.'.tag_id',array('label'=>'','default'=>9)),
-											$this->Form->input('TweetsUser.'.$i.'.linked',array('label'=>'','type'=>'checkbox'))
+											$this->Form->input('TweetsUser.'.$i.'.linked',array('label'=>'','type'=>'checkbox','class'=>'checkbox'))
 										)
 								);
 							$i++;
 						}
 						echo "</table>";
 					?>
-				</div>
 			</fieldset>
 			</div>
-		<?php echo $this->Form->end(__('Submit'));?>
+		<?php echo $this->Form->end(__('Enviar'));?>
 	</div>
 </div>
