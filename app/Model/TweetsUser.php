@@ -95,7 +95,15 @@ class TweetsUser extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'NerTag' => array(
+			'className' => 'NerTag',
+			'foreignKey' => 'ner_tag_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
+
 	);
 	public function findNextTweet(){
 		$tweet_id = TweetsUser::find('first',array('conditions'=>array('TweetsUser.user_id'=>$this->currentUser),'fields'=>array('TweetsUser.tweet_id'),'order'=>'TweetsUser.tweet_id desc'));
@@ -112,6 +120,7 @@ class TweetsUser extends AppModel {
 	public function findTaggedTweets($tweet_id){
 		$tweets = $this->Tweet->find('all',array('conditions'=>array('Tweet.id'=>$tweet_id)));
 		$tmp = array();
+		$taggedTweets = array();
 		foreach($tweets as $tweet){
 			$tweet_parts = explode(" ",$tweet['Tweet']['tweet']);
 			$this->unBindModel(array('belongsTo'=>array('Tweet')));
@@ -138,7 +147,37 @@ class TweetsUser extends AppModel {
 			if($prev == 1) $tmp[$tag['TweetsUser']['user_id']] .= "<span style='color:red;font-size:8px'>%/".$prevTag."%</span>";
 			
 		}
-		return $tmp;
+		$taggedTweets['pos'] = $tmp;
+		$tmp = array();
+		$tweets = $this->Tweet->find('all',array('conditions'=>array('Tweet.id'=>$tweet_id)));
+		foreach($tweets as $tweet){
+			$tweet_parts = explode(" ",$tweet['Tweet']['tweet']);
+			$this->unBindModel(array('belongsTo'=>array('Tweet')));
+			$taggedTweet = $this->find('all',array('conditions'=>array('TweetsUser.tweet_id'=>$tweet_id),'order'=>array('user_id asc','position_tweet asc')));
+			$tweets = array();
+			$tweet = "";
+			$prev = 0;
+			$prevTag = '';
+			foreach($taggedTweet as $tag){
+				if(!array_key_exists($tag['TweetsUser']['user_id'], $tmp)) $tmp[$tag['TweetsUser']['user_id']] = '';
+				if($prev == 1 && $tag['TweetsUser']['linked'] == 0) {
+					$tmp[$tag['TweetsUser']['user_id']] .= "<span style='color:green;font-size:9px'>%/".$prevTag."%</span>";
+					$prev = 0;
+					$prevTag = '';
+				}
+				if($tag['NerTag']['name'] != 'Ninguno' && $prev == 0)$tmp[$tag['TweetsUser']['user_id']] .= "<span style='color:green;font-size:8px'>%".$tag['NerTag']['name']."%</span>";
+					$tmp[$tag['TweetsUser']['user_id']] .= " ".$tweet_parts[($tag['TweetsUser']['position_tweet']-1)]." ";
+				if($tag['NerTag']['name'] != 'Ninguno' && $tag['TweetsUser']['linked'] == 1 && $prev == 0){
+					$prev = 1;
+					$prevTag = $tag['NerTag']['name'];
+				}
+				else if($tag['NerTag']['name'] != 'Ninguno' && $tag['TweetsUser']['linked'] == 0 && $prev == 0) $tmp[$tag['TweetsUser']['user_id']] .= "<span style='color:green;font-size:8px'>%/".$tag['NerTag']['name']."%</span>";
+			}
+			if($prev == 1) $tmp[$tag['TweetsUser']['user_id']] .= "<span style='color:green;font-size:8px'>%/".$prevTag."%</span>";
+			
+		}
+		$taggedTweets['ner'] = $tmp;
+		return $taggedTweets;
 
 	}
 

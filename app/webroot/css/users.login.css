@@ -1,0 +1,21 @@
+div#title{
+	font-size:150%;
+	width:400px;
+	margin:10px auto;
+
+}
+div#loginbox{
+	width:400px;
+
+}
+div.container {
+	margin-top: 100px;
+}
+button.button{
+	clear: both;
+	float:right;
+}
+
+body{
+	background-color:;
+}

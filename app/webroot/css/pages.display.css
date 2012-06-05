@@ -1,0 +1,9 @@
+div#button{
+	
+	text-align:center;
+}
+button#tag{
+	display:inline-block;
+	padding:20px;
+	font-size:25px;
+}

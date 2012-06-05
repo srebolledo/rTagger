@@ -9,6 +9,8 @@ class UsersController extends AppController {
 
 public function beforeFilter() {
     parent::beforeFilter();
+    $this->Auth->allow('register');
+
 }
 /**
  * index method
@@ -44,7 +46,7 @@ public function beforeFilter() {
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'add'));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
@@ -130,4 +132,25 @@ public function beforeFilter() {
 
 	    exit;
 	}
+	public function register(){
+		if ($this->request->is('post')) {
+			$this->request->data['User']['group_id'] = 2; //always two to get the tagger user
+			if($this->request->data['User']['password'] != $this->request->data['User']['password2']){
+				$this->Session->setFlash('Las contraseñas no coinciden');
+				$this->redirect(array('action'=>'register'));
+			}
+			$this->User->create();
+			
+			if ($this->User->save($this->request->data)) {
+				$this->Session->setFlash(__('Has sido registrado'));
+				$this->redirect(array('controller'=>'users','action' => 'login'));
+			} else {
+				$this->Session->setFlash(__('Tu usuario no pudo ser guardado.'));
+			}
+		}
+		$groups = $this->User->Group->find('list');
+		$this->set(compact('groups'));
+	}
+
+	
 }

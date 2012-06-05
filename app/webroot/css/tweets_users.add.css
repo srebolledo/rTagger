@@ -1,5 +1,5 @@
 table.choppedTweet{
-	width:700px;
+	width:800px;
 	margin: 30px auto 0 auto;
 }
 input.checkbox{
@@ -9,6 +9,9 @@ table tr th{
 	font-size: 115%;
 	height: 30px;
 	
+}
+table tr td{
+	margin: 0 10px;
 }
 .tweet {
 	font-size:150%;

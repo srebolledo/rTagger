@@ -32,6 +32,7 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+    public $_title = "";
     public $components = array(
         'Acl',
         'Auth' => array(
@@ -50,6 +51,12 @@ class AppController extends Controller {
         $this->Auth->loginRedirect = array('controller' => 'pages', 'action' => 'home');
     }
     public function beforeRender(){
+        if($this->_title != ''){
+            $this->set('title_for_layout',$this->_title." | rTagger: Etiquetador de textos cortos.");
+        }
+        else{
+            $this->set('title_for_layout','rTagger: Etiquetador de textos cortos.');
+        }
 	    /*Automatic css and js load*/
 	    $fileName = $this->params['controller'].".".$this->params['action'];
 	    $_css = array();

@@ -9,7 +9,7 @@
 						//chopping data
 						$tweet_explode = explode(" ", $tweet['Tweet']['tweet']);
 						echo "<table class='choppedTweet'>";
-						echo $this->Html->tableHeaders(array('Tweet part','Tag','Palabras unidas'));
+						echo $this->Html->tableHeaders(array('Tweet part','Tag','Entidad', 'Palabras unidas'));
 						$i = 0;
 						foreach ($tweet_explode as $word){
 							echo $this->Form->hidden('TweetsUser.'.$i.'.user_id',array('value'=>$user));
@@ -20,7 +20,8 @@
 							echo $this->Html->tableCells(
 									array(
 											$word,
-											$this->Form->input('TweetsUser.'.$i.'.tag_id',array('label'=>'','default'=>9)),
+											$this->Form->input('TweetsUser.'.$i.'.tag_id',array('label'=>'')),
+											$this->Form->input('TweetsUser.'.$i.'.ner_tag_id',array('label'=>'','default'=>9)),
 											$this->Form->input('TweetsUser.'.$i.'.linked',array('label'=>'','type'=>'checkbox','class'=>'checkbox'))
 										)
 								);

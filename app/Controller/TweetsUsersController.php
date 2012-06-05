@@ -17,6 +17,7 @@ class TweetsUsersController extends AppController {
  * @return void
  */
 	public function index() {
+		$this->_title = "Lista de tweets";
 		$this->TweetsUser->recursive = 0;
 		$this->set('tweetsUsers', $this->paginate());
 	}
@@ -42,11 +43,12 @@ class TweetsUsersController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->_title = "Etiquetando un nuevo tweet";
 		if ($this->request->is('post')) {
 			$this->TweetsUser->create();
 			if ($this->TweetsUser->saveAll($this->request->data['TweetsUser'])){
 				$this->Session->setFlash(__('The tweets user has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'add'));
 			} else {
 				$this->Session->setFlash(__('The tweets user could not be saved. Please, try again.'));
 			}
@@ -54,7 +56,8 @@ class TweetsUsersController extends AppController {
 		$tweet = $this->TweetsUser->findNextTweet();
 		$user = $this->Auth->user('id');
 		$tags = $this->TweetsUser->Tag->find('list');
-		$this->set(compact('user', 'tags','tweet'));
+		$nerTags = $this->TweetsUser->NerTag->find('list');
+		$this->set(compact('user', 'tags','tweet','nerTags'));
 	}
 
 /**
@@ -81,6 +84,7 @@ class TweetsUsersController extends AppController {
 		$tweets = $this->TweetsUser->Tweet->find('list');
 		$users = $this->TweetsUser->User->find('list');
 		$tags = $this->TweetsUser->Tag->find('list');
+
 		$this->set(compact('tweets', 'users', 'tags'));
 	}
 
