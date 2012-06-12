@@ -21,7 +21,7 @@
 									array(
 											$word,
 											$this->Form->input('TweetsUser.'.$i.'.tag_id',array('label'=>'')),
-											$this->Form->input('TweetsUser.'.$i.'.ner_tag_id',array('label'=>'','default'=>9)),
+											$this->Form->input('TweetsUser.'.$i.'.ner_tag_id',array('label'=>'','default'=>15)),
 											$this->Form->input('TweetsUser.'.$i.'.linked',array('label'=>'','type'=>'checkbox','class'=>'checkbox'))
 										)
 								);
