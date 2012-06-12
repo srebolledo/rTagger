@@ -23,7 +23,11 @@
 				
 			}
 		?>
+		<div class="six columns" style="float:left;display:block;">
+			<?= $this->Html->link('Volver al inicio',array('controller'=>'pages','action'=>'display'));?>
+		</div>
 		<div class="six columns" style="float:right;display:block;">
+
 		<?php
 			if(count($tweet['pos']) == 0){
 				if($tweet_id>1) echo $this->Html->link('Ver anterior',array('action'=>'view',$tweet_id-1));					
