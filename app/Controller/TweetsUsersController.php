@@ -34,6 +34,7 @@ class TweetsUsersController extends AppController {
 			throw new NotFoundException(__('Invalid tweets user'));
 		}
 		$this->set('tweet',$this->TweetsUser->findTaggedTweets($id));
+		$this->set('tweet_id',$id);
 		$this->set('tweetsUser', $this->TweetsUser->read(null, $id));
 	}
 
@@ -108,6 +109,10 @@ class TweetsUsersController extends AppController {
 		}
 		$this->Session->setFlash(__('Tweets user was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+
+	public function seetTagged(){
+
 	}
 
 }

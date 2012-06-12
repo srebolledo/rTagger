@@ -23,5 +23,19 @@
 				
 			}
 		?>
+		<div class="six columns" style="float:right;display:block;">
+		<?php
+			if(count($tweet['pos']) == 0){
+				if($tweet_id>1) echo $this->Html->link('Ver anterior',array('action'=>'view',$tweet_id-1));					
+			}
+			else{
+				if($tweet_id>1) echo $this->Html->link('Ver anterior',array('action'=>'view',$tweet_id-1));					
+
+				echo $this->Html->link('Ver siguiente',array('action'=>'view',$tweet_id+1));
+			}
+
+		?>
+	</div>
+
 	</div>
 </div>
