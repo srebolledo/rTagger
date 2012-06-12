@@ -9,7 +9,7 @@
 						//chopping data
 						$tweet_explode = explode(" ", $tweet['Tweet']['tweet']);
 						echo "<table class='choppedTweet'>";
-						echo $this->Html->tableHeaders(array('Tweet part','Tag','Entidad', 'Palabras unidas'));
+						echo $this->Html->tableHeaders(array('Tweet part','POS','Entidad Nombrada', 'Palabras unidas'));
 						$i = 0;
 						foreach ($tweet_explode as $word){
 							echo $this->Form->hidden('TweetsUser.'.$i.'.user_id',array('value'=>$user));
