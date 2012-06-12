@@ -5,7 +5,9 @@
 		});
 	});
 </script>
+
 <div class="container">
+
 <div class="sixteen columns">
 	<h1 style="text-align:center">Bienvenido a rTagger</h1>
 	<p>

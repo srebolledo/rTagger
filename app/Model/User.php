@@ -25,6 +25,10 @@ class User extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+			'isUnique'=>array(
+				'rule'=> 'isUnique',
+				'message' => 'Nombre de usuario ya tomado, elige otro.'
+			),
 		),
 		'password' => array(
 			'notempty' => array(

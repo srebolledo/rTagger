@@ -42,14 +42,7 @@
 	?>
 </head>
 <body>
-	<?php
-		$user = $this->Session->read('Auth.User');
-	?>
-	<div id="header">
-		<div class="username">Bienvenido <b style="font-weight: bolder"><?= $user['username'];?></b> | <?php echo $this->Html->link('salir',array('controller'=>'users','action'=>'logout'));?></div>
-
-	</div>
-			<?php echo $this->fetch('content'); ?>
+		<?php echo $this->fetch('content'); ?>
 		<div id="footer">
 		</div>
 	

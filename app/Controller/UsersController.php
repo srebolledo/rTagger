@@ -102,6 +102,7 @@ public function beforeFilter() {
 		$this->redirect(array('action' => 'index'));
 	}
 	public function login(){
+		$this->layout = 'login';
 	    if ($this->request->is('post')) {
        		if ($this->Auth->login()) {
 
