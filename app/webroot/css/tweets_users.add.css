@@ -14,9 +14,17 @@ table tr td{
 	margin: 0 10px;
 }
 .tweet {
-	font-size:150%;
-	color:black;
+	font-size:170%;
+	font-weight: bolder;	
+	color:white;
+	text-align: center;
+	background-color: orange;
+	border: solid 2px black;
+	border-radius: 5px;
+	padding:20px;
+
 }
 select{
 	align: center;
+	width:85%;
 }

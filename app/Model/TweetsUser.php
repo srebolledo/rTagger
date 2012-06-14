@@ -102,7 +102,14 @@ class TweetsUser extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+		'NerSubtag' => array(
+			'className' => 'NerSubtag',
+			'foreignKey' => 'ner_subtag_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 
 	);
 	public function findNextTweet(){

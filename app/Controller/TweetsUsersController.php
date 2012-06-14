@@ -58,7 +58,12 @@ class TweetsUsersController extends AppController {
 		$user = $this->Auth->user('id');
 		$tags = $this->TweetsUser->Tag->find('list');
 		$nerTags = $this->TweetsUser->NerTag->find('list');
-		$this->set(compact('user', 'tags','tweet','nerTags'));
+		$nerSubtags = array();
+		foreach($nerTags as $key => $ner){
+			$tmp = $this->TweetsUser->NerSubtag->find('list',array('conditions'=>array('NerSubtag.ner_tag_id'=>$key)));
+			$nerSubtags[$key] = $tmp;
+		}
+		$this->set(compact('user', 'tags','tweet','nerTags','nerSubtags'));
 	}
 
 /**

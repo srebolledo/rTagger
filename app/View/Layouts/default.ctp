@@ -36,6 +36,7 @@
 		foreach($js as $javascript){
 			echo $this->Html->script($javascript);			
 		}
+		echo $this->Html->script('jQuery');
 		echo $this->fetch('meta');													
 		echo $this->fetch('css');
 		echo $this->fetch('script');
