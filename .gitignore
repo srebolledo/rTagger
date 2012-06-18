@@ -7,3 +7,4 @@ app/config/database.php
 app/.htaccess
 app/webroot/.htaccess
 app/Config/core.php
+*.DS_Store

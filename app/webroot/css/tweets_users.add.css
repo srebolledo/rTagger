@@ -1,6 +1,8 @@
 table.choppedTweet{
 	width:800px;
 	margin: 30px auto 0 auto;
+	position:relative;
+
 }
 input.checkbox{
 	text-align: center;	
@@ -27,4 +29,28 @@ table tr td{
 select{
 	align: center;
 	width:85%;
+}
+table tr{
+	height:40px;
+
+}
+table tr td{
+	vertical-align: middle;
+	padding: 0 0 0 10px;
+}
+table tr td div{
+	width:100%;
+}
+.altrow{
+	background-color: #DFDFDF;
+}
+
+.tweet_part{
+	width:200px;
+}
+.ner{
+	width:150px;
+}
+.ner_subtag{
+	width:170px;
 }

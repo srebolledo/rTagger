@@ -29,6 +29,7 @@
 
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('common');
+		echo $this->Html->css('chosen');
 
 		foreach($css as $stylesheet){
 			echo $this->Html->css($stylesheet);			
@@ -37,6 +38,7 @@
 			echo $this->Html->script($javascript);			
 		}
 		echo $this->Html->script('jQuery');
+		echo $this->Html->script('chosen.jquery');
 		echo $this->fetch('meta');													
 		echo $this->fetch('css');
 		echo $this->fetch('script');

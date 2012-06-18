@@ -107,4 +107,20 @@ class TweetsController extends AppController {
 		$this->Session->setFlash(__('Tweet was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+	public function tweets_to_show(){
+		/*Get last not reviewed tweet*/
+		if($this->request->is('post')){
+			
+			$this->Tweet->id = $this->request->data['Tweet']['id'];
+			$this->Tweet->saveField('used',$this->request->data['Tweet']['used']);
+			$this->Tweet->id = $this->request->data['Tweet']['id'];
+			$this->Tweet->saveField('reviewed','1');
+			$this->redirect(array('action'=>'tweets_to_show'));
+		}
+
+		$this->set('tweet',$this->Tweet->getTweet());
+		$this->set('total',$this->Tweet->getTotal());
+		$this->set('notReviewed',$this->Tweet->getNotReviewed());
+	}
 }

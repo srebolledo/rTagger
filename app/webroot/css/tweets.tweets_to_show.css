@@ -1,0 +1,15 @@
+
+.tweet {
+	font-size:170%;
+	font-weight: bolder;	
+	color:white;
+	text-align: center;
+	background-color: orange;
+	border: solid 2px black;
+	border-radius: 5px;
+	padding:20px;
+
+}
+label{
+	display: inline-block;;
+}

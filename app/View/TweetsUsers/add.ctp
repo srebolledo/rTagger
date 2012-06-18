@@ -10,17 +10,62 @@
 				}
 			}
 		?>
+		$("select").chosen();
 		$("select[name$='[ner_tag_id]']").change(function(){
 	 	    name = this.name;
 	 	    tmp = name.split("]");
 	 	    tmp = tmp[1].split("[");
-	 	    select = tmp[1];
+	 	    tmp = tmp[1];
+	 	    id = "TweetsUser"+tmp+"NerSubtagId";
+	 	    name = "data[TweetsUser]["+tmp+"][ner_subtag_id]"
+			$("td[id='"+tmp+"']").empty();
 	 	    opcion = $(this).find("option:selected").val();
-	 	    $("select[name$='["+select+"][ner_subtag_id]']").empty();
-	 	    $("select[name$='["+select+"][ner_subtag_id]']").append(opciones[opcion]);
+	 	    $("select[name$='["+tmp+"][ner_subtag_id]']").empty();
+	 	    select_ = "<select name = '"+name+"' id = '"+id+"' style='vertical-align:middle;margin:auto 0;width:150px'></select>";
+	 	    //alert(select_);
+	 	    $("td[id='"+tmp+"']").append(select_);
+	 	    $("select[name$='["+tmp+"][ner_subtag_id]']").append(opciones[opcion]);
+	 	    $("select[name$='["+tmp+"][ner_subtag_id]']").chosen();
 
+	 	    $("select[name$='[ner_subtag_id]']").change(function(){
+				/*If is "otro" change it to a input text box*/
+				//This is for the deletion of the select box
+				valor = $(this).find("option:selected").text()
+				if (valor == 'Otro'){
+					name = this.name;
+			 	    tmp = name.split("]");
+			 	    tmp = tmp[1].split("[");
+			 	    tmp = tmp[1];
+					//alert($(this).find("option:selected").text());
+					id = $(this).attr('id');
+					name = $(this).attr('name');
+					//alert(id+ " " + name);
+			 	    $("td[id='"+tmp+"']").empty();
+					//construct the new input box
+					input = "<input type='text' name = '"+name+"' id = '"+id+"' style='vertical-align:middl;margin:auto 0;width:93%;'>";
+					$("td[id='"+tmp+"']").append(input);
+					$("td[id='"+tmp+"']").css('position','relative');
+				}
+			});
 		 		 	
 		 })
+		// $("select[name$='[ner_subtag_id]']").change(function(){
+		// 	/*If is "otro" change it to a input text box*/
+		// 	//This is for the deletion of the select box
+		// 	name = this.name;
+	 // 	    tmp = name.split("]");
+	 // 	    tmp = tmp[1].split("[");
+	 // 	    tmp = tmp[1];
+		// 	//alert($(this).find("option:selected").text());
+		// 	id = $(this).attr('id');
+		// 	name = $(this).attr('name');
+		// 	//alert(id+ " " + name);
+
+		// 	//construct the new input box
+		// 	input = "<input type='text' name = '"+name+"' id = '"+id+"' style='vertical-align:middl;margin:auto 0;'>";
+		// 	$("td[id='"+tmp+"']").append(input);
+		// 	$("td[id='"+tmp+"']").css('position','relative');
+		// });
 	});
 	
 
@@ -36,22 +81,59 @@
 						//chopping data
 						$tweet_explode = explode(" ", $tweet['Tweet']['tweet']);
 						echo "<table class='choppedTweet'>";
-						echo $this->Html->tableHeaders(array('Tweet part','POS','Entidad Nombrada', 'Sub tag' , 'Palabras unidas'));
+						//echo $this->Html->tableHeaders(array('Tweet part','POS','Entidad Nombrada', 'Sub tag' , 'Palabras unidas'));
+						echo "<tr>";
+							echo "<th class='tweet_part'>Tweet</th><th class='pos'>POS</th><th class='ner'>Entidad nombrada</th><th class='ner_subtag'>Especialización E.N.</th><th class='join'>¿Unidas?</th>";
+
+						echo "</tr>";
+
+
 						$i = 0;
 						foreach ($tweet_explode as $word){
 							echo $this->Form->hidden('TweetsUser.'.$i.'.user_id',array('value'=>$user));
 							echo $this->Form->hidden('TweetsUser.'.$i.'.position_tweet',array('value'=>($i+1)));
 							echo $this->Form->hidden('TweetsUser.'.$i.'.tweet_id',array('value'=>$tweet['Tweet']['id']));
-		
-		
+							//*Giving some info to the user*//
+							$def = "";
+							//Reconocimiento de articulos
+							$articulos = array('el','la','los','las',
+											   'un','una','unos', 'unas',
+											   'lo','del','al'
+											);
+							if(array_search(strtr(strtolower($word), "áéíóú", "aeiou"), $articulos)){
+								$def = 1;
+							}
+							//Fin de reconocimiento de articulos
+							
+							//Reconocimiento de preposiciones
+							$preposiciones = array("a","ante","bajo","cabe",'con','contra','desde','durante',
+												   "en",'entre','excepto','hacia','hasta','mediante','para','por',
+												   'pro','salvo','segun','sin','so','sobre','tras','via'
+								);
+							if(array_search(strtr(strtolower($word), "áéíóú", "aeiou"), $preposiciones)){
+								$def = 7;
+							}
+							//Reconocimiento de hashtags
+							if(strstr($word, "#")){
+								$def = 11;
+							}
+							if(strstr($word,"@")){
+								$def = "12";
+							}
+							//Fin de reconocimiento de hashtags
+
 							echo $this->Html->tableCells(
 									array(
 											$word,
-											$this->Form->input('TweetsUser.'.$i.'.tag_id',array('label'=>'')),
+											$this->Form->input('TweetsUser.'.$i.'.tag_id',array('label'=>'','default'=>$def)),
 											$this->Form->input('TweetsUser.'.$i.'.ner_tag_id',array('label'=>'','default'=>15)),
-											$this->Form->input('TweetsUser.'.$i.'.ner_subtag_id',array('type'=>'select','options'=>array('Ninguno'),'label'=>'')),
+											array($this->Form->input('TweetsUser.'.$i.'.ner_subtag_id',array('type'=>'select','options'=>array('Ninguno'),'label'=>'')),array('id'=>$i)),
 											$this->Form->input('TweetsUser.'.$i.'.linked',array('label'=>'','type'=>'checkbox','class'=>'checkbox'))
-										)
+										),
+									array(
+										'class'=>'altrow'
+
+									)
 								);
 							$i++;
 						}
