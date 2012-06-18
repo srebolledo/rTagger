@@ -112,9 +112,10 @@ public function beforeFilter() {
 	    if ($this->request->is('post')) {
        		if ($this->Auth->login()) {
 
+
 	            $this->redirect($this->Auth->redirect());
     	    } else {
-        	    $this->Session->setFlash('Your username or password was incorrect.');
+        	    $this->Session->setFlash('Tu nombre de usuario o contraseña es incorrecta');
         	}	
     	}
 	}
@@ -151,10 +152,11 @@ public function beforeFilter() {
 			if ($this->User->save($this->request->data)) {
 				$email = new CakeEmail();
 				$email->config = array('gmail');
-				$email->from(array('rTagger@ia.udec.cl'=>'rTagger'));
+				$email->from(array('stephan@ia.udec.cl'=>'rTagger'));
 				$email->to(array('srebolledo@gmail.com'));
-				$email->subject('Test');
-				$email->send('Esto es una prueba');
+				$email->subject('Registro de nuevo usuario en rTagger');
+				$message = "El usuario ".$this->request->data['User']['username']." se ha registrado."
+				$email->send($message);
 				$this->Session->setFlash(__('Has sido registrado'));
 				$this->redirect(array('controller'=>'users','action' => 'login'));
 			} else {
