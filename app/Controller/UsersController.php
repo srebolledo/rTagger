@@ -150,7 +150,7 @@ public function beforeFilter() {
 			
 			if ($this->User->save($this->request->data)) {
 				$email = new CakeEmail();
-				//$email->config = array('gmail');
+				$email->config = array('gmail');
 				$email->from(array('rTagger@ia.udec.cl'=>'rTagger'));
 				$email->to(array('srebolledo@gmail.com'));
 				$email->subject('Test');
