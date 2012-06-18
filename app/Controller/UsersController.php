@@ -51,12 +51,7 @@ public function beforeFilter() {
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved'));
-				$email = new CakeEmail();
-				$email->config = array('gmail');
-				$email->from(array('rTagger@gmail.com'=>'rTagger'));
-				$email->to(array('srebolledo@gmail.com'));
-				$email->subject('Test');
-				$email->send('Esto es una prueba');
+				
 				$this->redirect(array('action' => 'add'));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
@@ -154,6 +149,12 @@ public function beforeFilter() {
 			$this->User->create();
 			
 			if ($this->User->save($this->request->data)) {
+				$email = new CakeEmail();
+				$email->config = array('gmail');
+				$email->from(array('rTagger@gmail.com'=>'rTagger'));
+				$email->to(array('srebolledo@gmail.com'));
+				$email->subject('Test');
+				$email->send('Esto es una prueba');
 				$this->Session->setFlash(__('Has sido registrado'));
 				$this->redirect(array('controller'=>'users','action' => 'login'));
 			} else {
