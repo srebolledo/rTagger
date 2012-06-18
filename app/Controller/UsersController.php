@@ -1,11 +1,16 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail','Network/Email');
+
 /**
  * Users Controller
  *
  * @property User $User
  */
+
 class UsersController extends AppController {
+
+
 
 public function beforeFilter() {
     parent::beforeFilter();
@@ -46,6 +51,12 @@ public function beforeFilter() {
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved'));
+				$email = new CakeEmail();
+				$email->config = array('gmail');
+				$email->from(array('rTagger@gmail.com'=>'rTagger'));
+				$email->to(array('srebolledo@gmail.com'));
+				$email->subject('Test');
+				$email->send('Esto es una prueba');
 				$this->redirect(array('action' => 'add'));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
