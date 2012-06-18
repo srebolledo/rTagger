@@ -155,7 +155,7 @@ public function beforeFilter() {
 				$email->from(array('stephan@ia.udec.cl'=>'rTagger'));
 				$email->to(array('srebolledo@gmail.com'));
 				$email->subject('Registro de nuevo usuario en rTagger');
-				$message = "El usuario ".$this->request->data['User']['username']." se ha registrado."
+				$message = "El usuario ".$this->request->data['User']['username']." se ha registrado.";
 				$email->send($message);
 				$this->Session->setFlash(__('Has sido registrado'));
 				$this->redirect(array('controller'=>'users','action' => 'login'));
