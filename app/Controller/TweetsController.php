@@ -121,7 +121,7 @@ class TweetsController extends AppController {
 
 		$this->set('tweet',$this->Tweet->getTweet());
 		$this->set('total',$this->Tweet->getTotal());
-		$this->set('notReviewed',$this->Tweet->getNotReviewed(false));
-		$this->set('reviewed',$this->Tweet->getNotReviewed(true));
+		$this->set('notReviewed',$this->Tweet->getReviewed(false));
+		$this->set('reviewed',$this->Tweet->getReviewed(true));
 	}
 }
