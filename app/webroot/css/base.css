@@ -52,8 +52,7 @@
 /* #Basic Styles
 ================================================== */
 	body {
-		background : white url(/rTagger/img/blue_gradient.png) repeat-x left top;
-		background : white url(/rTagger/img/blue_gradient.png) repeat-x left top;
+		background : white url(../img/blue_gradient.png) repeat-x left top;
 		font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 		color: #444;
 		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
