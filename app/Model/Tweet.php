@@ -19,7 +19,10 @@ class Tweet extends AppModel {
 	public function getTotal(){
 		return $this->find('count');
 	}
-	public function getNotReviewed(){
-		return $this->find('count',array('conditions'=>array('Tweet.reviewed'=>0)));	
+	public function getReviewed($reviewed = false){
+		if($reviewed) return $this->find('count',array('conditions'=>array('Tweet.reviewed'=>1)));	
+		else return $this->find('count',array('conditions'=>array('Tweet.reviewed'=>0)));	
+		
 	}
+
 }
