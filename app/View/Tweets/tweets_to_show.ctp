@@ -6,10 +6,10 @@
 		<?= $this->Form->hidden('Tweet.id',array('default'=>$tweet['Tweet']['id']));?>
 		<?php
 			if(count(explode($tweet['Tweet']['tweet'])) > 3){
-				$this->Form->input('used',array('label'=>'Usar este tweet?','type'=>'checkbox','style'=>'text-align:left;display:inline-block;','checked'));		
+				echo $this->Form->input('used',array('label'=>'Usar este tweet?','type'=>'checkbox','style'=>'text-align:left;display:inline-block;','checked'));		
 			}
 			else{
-				$this->Form->input('used',array('label'=>'Usar este tweet?','type'=>'checkbox','style'=>'text-align:left;display:inline-block;'));			
+				echo $this->Form->input('used',array('label'=>'Usar este tweet?','type'=>'checkbox','style'=>'text-align:left;display:inline-block;'));			
 			}
 		?>
 		
