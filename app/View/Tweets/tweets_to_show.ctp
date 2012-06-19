@@ -5,7 +5,7 @@
 		<h6>Faltan por revisar <?= $notReviewed;?> de un total de <?= $total?></h6>
 		<?= $this->Form->hidden('Tweet.id',array('default'=>$tweet['Tweet']['id']));?>
 		<?php
-			if(count(explode($tweet['Tweet']['tweet'])) > 3){
+			if(count(explode(' ',$tweet['Tweet']['tweet'])) > 3){
 				echo $this->Form->input('used',array('label'=>'Usar este tweet?','type'=>'checkbox','style'=>'text-align:left;display:inline-block;','checked'));		
 			}
 			else{
