@@ -16,6 +16,10 @@ class Tweet extends AppModel {
 	public function getTweet(){
 		return $this->find('first',array('conditions'=>array('Tweet.reviewed'=>0),'order'=>array('Tweet.id asc')));
 	}
+	//Get $numbers of tweets.
+	public function getTweets($number = 10){
+		return $this->find('all',array('conditions'=>array('Tweet.reviewed'=>0),'order'=>array('Tweet.id asc'),'limit'=>$number));
+	}
 	public function getTotal(){
 		return $this->find('count');
 	}

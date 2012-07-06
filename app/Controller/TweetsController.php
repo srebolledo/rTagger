@@ -108,18 +108,20 @@ class TweetsController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-	public function tweets_to_show(){
+	public function tweets_to_show($number = 10){
 		/*Get last not reviewed tweet*/
 		if($this->request->is('post')){
-			
-			$this->Tweet->id = $this->request->data['Tweet']['id'];
-			$this->Tweet->saveField('used',$this->request->data['Tweet']['used']);
-			$this->Tweet->id = $this->request->data['Tweet']['id'];
-			$this->Tweet->saveField('reviewed','1');
+			pr($this->request->data);
+			foreach($this->request->data as $data){
+				$this->Tweet->id = $data['Tweet']['id'];
+				$this->Tweet->saveField('used',$data['Tweet']['used']);
+				$this->Tweet->id = $data['Tweet']['id'];
+				$this->Tweet->saveField('reviewed','1');
+			}
 			$this->redirect(array('action'=>'tweets_to_show'));
 		}
 
-		$this->set('tweet',$this->Tweet->getTweet());
+		$this->set('tweets',$this->Tweet->getTweets($number));
 		$this->set('total',$this->Tweet->getTotal());
 		$this->set('notReviewed',$this->Tweet->getReviewed(false));
 		$this->set('reviewed',$this->Tweet->getReviewed(true));

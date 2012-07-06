@@ -8,6 +8,13 @@
 	border: solid 2px black;
 	border-radius: 5px;
 	padding:20px;
+	margin-bottom: 20px;
+
+}
+.tweet_block{
+	display: block;
+
+
 
 }
 label{
