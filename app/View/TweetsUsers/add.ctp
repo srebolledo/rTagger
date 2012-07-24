@@ -73,28 +73,39 @@
 <div class="container">
 	<div class="sixteen columns">
 	<h1 style="text-align:center"><?php echo __('Etiquetando un tweet'); ?></h1>
+	<?php
+		if(!$tweet){
+			echo "Gracias por participar. Todo el corpus ha sido etiquetado.";
+	?>
+	</div>
+
+	</div>
+	<?php
+			exit();
+		}
+	?>
 		<?php echo $this->Form->create('TweetsUser');?>
 			<div style="margin: 0 auto 0 auto;">
 			<fieldset>
 				<div class="tweet"><?php echo $tweet['Tweet']['tweet'];?></div>
 				<?php
 						//chopping data
-						$tweet_explode = explode(" ", $tweet['Tweet']['tweet']);
+						$tweet_explode = preg_split("/[\s,]+/",$tweet['Tweet']['tweet']);
 						echo "<table class='choppedTweet'>";
-						//echo $this->Html->tableHeaders(array('Tweet part','POS','Entidad Nombrada', 'Sub tag' , 'Palabras unidas'));
 						echo "<tr>";
-							echo "<th class='tweet_part'>Tweet</th><th class='pos'>POS</th><th class='ner'>Entidad nombrada</th><th class='ner_subtag'>Especialización E.N.</th><th class='join'>¿Unidas?</th>";
+							echo "<th class='tweet_part'>Tweet</th><th class='pos'>Parte del discurso</th><th class='ner'>Entidad nombrada</th><th class='ner_subtag'>Especialización E.N.</th><th class='join'>¿Unidas?</th>";
 
 						echo "</tr>";
 
 
 						$i = 0;
 						foreach ($tweet_explode as $word){
+							echo $this->Form->hidden('TweetsUser.'.$i.'.word',array('value'=>$word));
 							echo $this->Form->hidden('TweetsUser.'.$i.'.user_id',array('value'=>$user));
 							echo $this->Form->hidden('TweetsUser.'.$i.'.position_tweet',array('value'=>($i+1)));
 							echo $this->Form->hidden('TweetsUser.'.$i.'.tweet_id',array('value'=>$tweet['Tweet']['id']));
 							//*Giving some info to the user*//
-							$def = "";
+							$def = "15";
 							//Reconocimiento de articulos
 							$articulos = array('el','la','los','las',
 											   'un','una','unos', 'unas',
@@ -114,12 +125,28 @@
 								$def = 7;
 							}
 							//Reconocimiento de hashtags
-							if(strstr($word, "#")){
+							if(preg_match('/^@[A-Za-z0-9]/' , $word) == 1){
+								$def = 12;
+							}
+							if(preg_match('/^#[A-Za-z0-9]/', $word) == 1){
 								$def = 11;
 							}
-							if(strstr($word,"@")){
-								$def = "12";
+							if(strstr(strtolower($word),"rt")){
+								$def = 10;
 							}
+							if(strstr($word,"/") || strstr($word,"//")){
+								$def = 14;
+							}
+							if(preg_match('/^http?:\/\//i',$word) == 1){
+								$def = 13;
+							}
+
+							// if(strstr($word, "#")){
+							// 	$def = 11;
+							// }
+							// if(strstr($word,"@")){
+							// 	$def = "12";
+							// }
 							//Fin de reconocimiento de hashtags
 
 							echo $this->Html->tableCells(

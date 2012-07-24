@@ -112,10 +112,18 @@ class TweetsUser extends AppModel {
 		),
 
 	);
+	public function getReviewed(){
+		$tweets = $this->find("list",array('group'=>array('tweet_id')));
+		return $tweets;
+
+	}
 	public function findNextTweet(){
-		$tweet_id = TweetsUser::find('first',array('conditions'=>array('TweetsUser.user_id'=>$this->currentUser),'fields'=>array('TweetsUser.tweet_id'),'order'=>'TweetsUser.tweet_id desc'));
-		if(!$tweet_id)	$tweet = $this->Tweet->find('first');
-		else $tweet = $this->Tweet->find('first',array('conditions'=>array('Tweet.id'=>($tweet_id['TweetsUser']['tweet_id']+1) )));
+		$tweet_reviewed = $this->getReviewed();
+		$tweet_count = $this->Tweet->find('list',array('conditions'=>array('NOT'=>array('Tweet.id'=>$tweet_reviewed))));
+		if($tweet_count == 0) return false;
+		$key = array_rand($tweet_count);
+		$tweet_id = $tweet_count[$key];
+		$tweet = $this->Tweet->find('first',array('conditions'=>array('Tweet.id'=>($key) )));
 		if($tweet)	return $tweet;
 		else return false;
 	}
@@ -129,7 +137,7 @@ class TweetsUser extends AppModel {
 		$tmp = array();
 		$taggedTweets = array();
 		foreach($tweets as $tweet){
-			$tweet_parts = explode(" ",$tweet['Tweet']['tweet']);
+			$tweet_parts = preg_split("/[\s,]+/",$tweet['Tweet']['tweet']);
 			$this->unBindModel(array('belongsTo'=>array('Tweet')));
 			$taggedTweet = $this->find('all',array('conditions'=>array('TweetsUser.tweet_id'=>$tweet_id),'order'=>array('user_id asc','position_tweet asc')));
 			$tweets = array();
@@ -158,7 +166,7 @@ class TweetsUser extends AppModel {
 		$tmp = array();
 		$tweets = $this->Tweet->find('all',array('conditions'=>array('Tweet.id'=>$tweet_id)));
 		foreach($tweets as $tweet){
-			$tweet_parts = explode(" ",$tweet['Tweet']['tweet']);
+			$tweet_parts = preg_split("/[\s,]+/",$tweet['Tweet']['tweet']);
 			$this->unBindModel(array('belongsTo'=>array('Tweet')));
 			$taggedTweet = $this->find('all',array('conditions'=>array('TweetsUser.tweet_id'=>$tweet_id),'order'=>array('user_id asc','position_tweet asc')));
 			$tweets = array();
