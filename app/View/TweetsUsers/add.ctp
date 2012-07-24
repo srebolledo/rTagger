@@ -49,23 +49,7 @@
 			});
 		 		 	
 		 })
-		// $("select[name$='[ner_subtag_id]']").change(function(){
-		// 	/*If is "otro" change it to a input text box*/
-		// 	//This is for the deletion of the select box
-		// 	name = this.name;
-	 // 	    tmp = name.split("]");
-	 // 	    tmp = tmp[1].split("[");
-	 // 	    tmp = tmp[1];
-		// 	//alert($(this).find("option:selected").text());
-		// 	id = $(this).attr('id');
-		// 	name = $(this).attr('name');
-		// 	//alert(id+ " " + name);
-
-		// 	//construct the new input box
-		// 	input = "<input type='text' name = '"+name+"' id = '"+id+"' style='vertical-align:middl;margin:auto 0;'>";
-		// 	$("td[id='"+tmp+"']").append(input);
-		// 	$("td[id='"+tmp+"']").css('position','relative');
-		// });
+	
 	});
 	
 
@@ -117,14 +101,30 @@
 							//Fin de reconocimiento de articulos
 							
 							//Reconocimiento de preposiciones
-							$preposiciones = array("a","ante","bajo","cabe",'con','contra','desde','durante',
+							$preposiciones = array("a","ante","bajo","cabe",'con','contra','de','desde','durante',
 												   "en",'entre','excepto','hacia','hasta','mediante','para','por',
 												   'pro','salvo','segun','sin','so','sobre','tras','via'
 								);
+							$demostrativos = array("este","ese","aquel","esta","esa","aquella","estos","esos","aquellos","estas","esas","aquellas","esto","eso","aquello");
+							$posesivos = array('mi',"mis","tu","tus","tuyo","tuyos","su","sus","suyo","suyos",
+								"mi", "mis","mia", "mias", "tuya","tuyas","suya","suyas","mio", "nuestro","nuestros","vuestro", "vuestros", "sus", "nuestras", "nuestra", "vuestra","vuestras");
+							$pronombres = array("yo", "tu", "el","ella", "ello", "usted", "nosotros", "nosotras", "vosotros", "ustedes", "vosotras", "ellos", "ellas", "mi", "ti", "vos", "me", "te", "lo", "le", "la", "nos", "os", "los", "les", "las");
+							if(array_search(strtr(strtolower($word), "áéíóú", "aeiou"), $pronombres)){
+								$def = 3;
+							}
 							if(array_search(strtr(strtolower($word), "áéíóú", "aeiou"), $preposiciones)){
 								$def = 7;
 							}
-							//Reconocimiento de hashtags
+							if(array_search(strtr(strtolower($word), "áéíóú", "aeiou"), $demostrativos)){
+								$def = 16;
+							}
+							if(array_search(strtr(strtolower($word), "áéíóú", "aeiou"), $posesivos)){
+								$def = 17;
+							}
+							if(preg_match("/\d/",$word) == 1){
+								$def = 18;
+							}
+							//Reconocimiento de hashtags y menciones
 							if(preg_match('/^@[A-Za-z0-9]/' , $word) == 1){
 								$def = 12;
 							}
@@ -140,6 +140,7 @@
 							if(preg_match('/^http?:\/\//i',$word) == 1){
 								$def = 13;
 							}
+
 
 							// if(strstr($word, "#")){
 							// 	$def = 11;
