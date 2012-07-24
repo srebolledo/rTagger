@@ -49,10 +49,10 @@ class TweetsUsersController extends AppController {
 
 			foreach($this->request->data['TweetsUser'] as &$tweet_part){
 				//echo $tweet_part['ner_subtag_id']."<br>";
-
+				if($tweet_part['ner_subtag_id'] == '') $tweet_part['ner_subtag_id'] = '0';
 				if($tweet_part['ner_subtag_id'] != '0'){
 					//echo $tweet_part['ner_subtag_id']."<br>";
-					$count = $this->TweetsUser->NerSubtag->find('first',array('conditions'=>array('NerSubtag.id'=>$tweet_part['ner_subtag_id'])));
+					$count = $this->TweetsUser->NerSubtag->find('count',array('conditions'=>array('NerSubtag.id'=>$tweet_part['ner_subtag_id'])));
 					if($count == 0){
 						//Debo agregar el subtag y traer el id
 						$tmp = array();
