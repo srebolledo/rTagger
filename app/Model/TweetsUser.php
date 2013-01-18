@@ -113,7 +113,8 @@ class TweetsUser extends AppModel {
 
 	);
 	public function getReviewed(){
-		$tweets = $this->find("list",array('group'=>array('tweet_id')));
+		$tweets = $this->find("list",array('conditions'=>array('modified <> '=> '0000-00-00 00:00:00'), 'group'=>array('tweet_id')));
+
 		return $tweets;
 
 	}
