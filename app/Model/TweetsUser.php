@@ -132,6 +132,13 @@ class TweetsUser extends AppModel {
 		@return array with tweets tagged by taggers.
 
 	*/
+	public function findTaggedTweet($tweet_id){
+		$this->unbindModel(array('belongsTo'=> array('User','Tweet','Tag','NerTag','NerSubtag')));
+		$tagged = $this->find('all',array('conditions'=>array('TweetsUser.tweet_id'=>$tweet_id),'order'=>array('user_id asc','position_tweet asc')));
+		return $tagged;
+	}
+
+
 	public function findTaggedTweets($tweet_id){
 		$tweets = $this->Tweet->find('all',array('conditions'=>array('Tweet.id'=>$tweet_id)));
 		$tmp = array();
@@ -168,7 +175,6 @@ class TweetsUser extends AppModel {
 		foreach($tweets as $tweet){
 			$tweet_parts = preg_split("/[\s,]+/",$tweet['Tweet']['tweet']);
 			$this->unBindModel(array('belongsTo'=>array('Tweet')));
-			$taggedTweet = $this->find('all',array('conditions'=>array('TweetsUser.tweet_id'=>$tweet_id),'order'=>array('user_id asc','position_tweet asc')));
 			$tweets = array();
 			$tweet = "";
 			$prev = 0;

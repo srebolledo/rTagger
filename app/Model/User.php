@@ -68,10 +68,10 @@ class User extends AppModel {
 			'order' => ''
 		)
 	);
-	 public function beforeSave() {
-        $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
-        return true;
-    }
+	 // public function beforeSave(array $options) {
+  //       $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
+  //       return true;
+  //   }
     public function parentNode() {
         if (!$this->id && empty($this->data)) {
             return null;

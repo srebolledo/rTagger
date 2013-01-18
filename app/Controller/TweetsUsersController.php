@@ -92,25 +92,35 @@ class TweetsUsersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		$this->TweetsUser->id = $id;
-		if (!$this->TweetsUser->exists()) {
-			throw new NotFoundException(__('Invalid tweets user'));
-		}
+		// $this->TweetsUser->id = $id;
+		// if (!$this->TweetsUser->exists()) {
+		// 	throw new NotFoundException(__('Invalid tweets user'));
+		// }
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->TweetsUser->save($this->request->data)) {
-				$this->Session->setFlash(__('The tweets user has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The tweets user could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->TweetsUser->read(null, $id);
-		}
-		$tweets = $this->TweetsUser->Tweet->find('list');
-		$users = $this->TweetsUser->User->find('list');
-		$tags = $this->TweetsUser->Tag->find('list');
+			foreach($this->request->data as $data){
+				foreach($data as $item){
+					$this->TweetsUser->id = $item['id'];
+					$this->TweetsUser->save($item);
+				}
 
-		$this->set(compact('tweets', 'users', 'tags'));
+			}
+				$this->redirect('edit');
+		}
+
+		$tweet = $this->TweetsUser->findNextTweet();
+		
+		$tweetUsers = $this->TweetsUser->findTaggedTweet($tweet['Tweet']['id']);
+		$user = $this->Auth->user('id');
+		$tags = $this->TweetsUser->Tag->find('list');
+		$nerTags = $this->TweetsUser->NerTag->find('list');
+		$nerSubtags = array();
+		foreach($nerTags as $key => $ner){
+			$tmp = $this->TweetsUser->NerSubtag->find('list',array('conditions'=>array('NerSubtag.ner_tag_id'=>$key)));
+			$nerSubtags[$key] = $tmp;
+		}
+		$this->set(compact('tweetUsers', 'user', 'tags','tweet','nerTags','nerSubtags'));
+
+		//$this->set(compact('tweet', 'users', 'tags'));
 	}
 
 /**
