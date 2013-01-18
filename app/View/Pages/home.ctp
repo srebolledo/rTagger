@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#tag").click(function(){
-			  window.location = '<?= $this->base;?>/tweets_users/add';
+			  window.location = '<?= $this->base;?>/tweets_users/edit';
 		});
 	});
 </script>
